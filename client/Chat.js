@@ -12,7 +12,8 @@ define([],function(){
 	Chat.prototype.clientRenderHtml = function(){
 		var r = '';
 		for(var i in this.history){
-			r+= '<p>['+this.history[i].time+'] <b>'+this.history[i].client+': </b>'+this.history[i].text+'</p>';
+			var time= new Date(this.history[i].time);
+			r+= '<p>['+time.toLocaleTimeString()+'] <b>'+this.history[i].client+': </b>'+this.history[i].text+'</p>';
 		}
 		return r;
 	};	
