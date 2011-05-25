@@ -1,6 +1,3 @@
-[submodule "lib/jo"]
-	path = lib/jo
-	url = http://github.com/jomoho/jomohojs
 [submodule "lib/yoda"]
 	path = lib/yoda
 	url = http://github.com/jomoho/yoda

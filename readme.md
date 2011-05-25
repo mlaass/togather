@@ -2,4 +2,4 @@ togather
 ========
 ` to gather = to bring together`
 
-Togather is an attempt to bring collaborative tile based level editor to the browser.
+Togather is a collaborative tile based level editor for the browser.
