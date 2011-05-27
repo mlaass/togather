@@ -1,5 +1,5 @@
-require(['http', 'url', 'fs', 'sys', './lib/yoda/Yoda', './client/Chat'], 
-		function(http, url, fs, sys, Yoda, Chat){
+require(['http', 'url', 'fs', 'sys', './lib/yoda/Yoda', './client/Chat', './client/Level'], 
+		function(http, url, fs, sys, Yoda, Chat, Level){
 	
 	var server = http.createServer(function(req, res) {		
 		// your normal server code
@@ -20,6 +20,7 @@ require(['http', 'url', 'fs', 'sys', './lib/yoda/Yoda', './client/Chat'],
 			if (err) return send404(res);
 			var ct = path.substr(path.length - 3) === '.js' ? 'text/javascript' : 'text/html';
 			ct = path.substring(path.length-4) === '.css' ? 'text/css' : ct;
+			ct = path.substring(path.length-4) === '.png' ? 'image/png' : ct;
 			
 			res.writeHead(200, {'Content-Type' : ct });
 			res.write(data, 'utf8');
@@ -36,6 +37,7 @@ require(['http', 'url', 'fs', 'sys', './lib/yoda/Yoda', './client/Chat'],
 	sys.puts('Server running at http://127.0.0.1:8000/');	
 	
 	var yoda = new Yoda({listen: server});	
-	//add an instance of the Chat class to Yoda
+	//add instances to Yoda
 	yoda.addInstance('chat', Chat);	
+	yoda.addInstance('map', Level, {arguments: [null, 256, 256], ignore:{draw: 1,update:1, init:1, convertFrame:1, get:1}});
 });

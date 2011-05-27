@@ -8,19 +8,146 @@
         <script src="lib/jquery-1.5.2.min.js"></script>
         <script src="lib/Socket.IO/socket.io.min.js"></script>         
         <script data-main="client" src="lib/require.js"></script>
+        
         <script type="text/javascript" >
-	        $(document).ready(function() {
-	        	$('#chat').click(function(){
-	        		$(this).hide();
+	        require.ready(function() {
+	        	var pop =$('.pop'), toolbar = $('#tools'), tools= $('#tools li'), settings =$('#tools #settings'),
+	        	chatb = $('#chatb'), buttons=$('.button');
+				if(!$jo){
+					$jo={};
+				}
+	        	
+	        	toolbar.show();
+        		$('#settings-pop').hide();
+        		
+        		$jo.tool='tile';
+        		
+        		
+        		buttons.each(function(vent, obj){
+	        		$(obj).html('<img src="img/empty.png" width="32" height="32" alt="'+$(obj).attr('id')+'"/>');
+        		});
+        		
+	        	tools.each(function(vent, obj){
+	        		$(obj).html('<img src="img/empty.png" width="32" height="32" alt="'+$(obj).attr('id')+'"/>');
+	        		$(obj).click(function(){
+	        			tools.each(function(ev, obj2){
+	        				$(obj2).removeClass('active');
+	        			})
+	        			$(obj).addClass('active');
+	        			$jo.tool= $(obj).attr('id')
+	        		});
 	        	});
-	        	$('canvas').click(function(){
-	        		$('body').focus();
+	        	settings.click(function(){
+	        		var inputs= $('#settings-pop input');
+	        		inputs.each(function(ev, obj){
+	        			var o = $(this);
+	        			o.val($jo.game.map[o.attr('id')]+'');
+	        		});
+	        		$('#settings-pop').show();
+	        	});
+	        	chatb.click(function(){
+
+	        		if(chatb.hasClass('hidden')){
+	        			$('#chat').show();
+	        			chatb.removeClass('hidden');
+	        		}else {
+	        			$('#chat').hide();
+	        			chatb.addClass('hidden');
+	        		}
+	        	});
+	        	$('#apply').click(function(e){
+	        		var w=$('#width').val(), h=$('#height').val();
+	        		w= parseInt(w), h=parseInt(h);
+	        		$jo.game.map.resize(w,h, {index: -1});
+
+	        		$('#settings-pop').hide();
+
+	        	});
+				$('#cancel').click(function(e){
+					$('#settings-pop').hide();
+	        	});
+
+	        	$('#canvas').click(function(){
+	        		$('#input').blur();
+	        	});
+	        	
+	        	var v= viewport();
+	        	pop.each(function(event, obj){
+	        		var o =$(obj);
+	        		o.css({left: (v.width/2)-o.width()/2, top: v.height/2 -o.height()/2});
+	        		if(!o.hasClass('clickable')){
+	        			o.click(function(){
+	            			o.hide();
+	                	});
+	        		}        		
+	        	})
+	        	toolbar.css({left: (v.width/2)-tools.width()/2, top: '16px'});
+	        	$(window).resize(function(){
+	    			var v= viewport();
+	            	pop.each(function(event, obj){
+	            		var o =$(obj);
+	            		o.css({left: (v.width/2)-o.width()/2, top: v.height/2 -o.height()/2});
+	            	});  
+	            	toolbar.css({left: (v.width/2)-tools.width()/2, top: '16px'});
 	        	});
 	        });
-	        
+	         var viewport = function(){
+	      		var viewportwidth;
+	      		var viewportheight;
+	      		// the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+	      		if (typeof window.innerWidth != 'undefined')
+	      		{
+	      		     viewportwidth = window.innerWidth,
+	      		     viewportheight = window.innerHeight;
+	      		}
+	 			// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+	      		else if (typeof document.documentElement != 'undefined'
+	      		    && typeof document.documentElement.clientWidth !=
+	      		    'undefined' && document.documentElement.clientWidth != 0)
+	      		{
+	      		      viewportwidth = document.documentElement.clientWidth,
+	      		      viewportheight = document.documentElement.clientHeight;
+	      		}
+	      		// older versions of IE    		
+	      		else
+	      		{
+	      		      viewportwidth = document.getElementsByTagName('body')[0].clientWidth,
+	      		      viewportheight = document.getElementsByTagName('body')[0].clientHeight;
+	      		}
+	      		return {width: viewportwidth, height: viewportheight};
+	      	};
         </script>
     </head>    
     <body> 
+    	<div id="chat" class="transparent"></div>
+    	<ul id="menu">
+ 	        <li id="chatb" class="button"></li> 
+    	</ul>
+       <ul id="tools" style="display:none">
+       		
+    		<li id="drag"></li>
+        	<li id="pick" ></li>
+        	<li id="tile" class="active"></li>   
+        	<li id="settings"></li>    
+        </ul>
+       	<form id="settings-pop" class="pop clickable" style="display:none">
+       		<fieldset>
+	       		<label for="name">name:</label>
+	       		<input id="name"/>
+       		</fieldset>
+       		<fieldset>
+	       		<label for="width">width:</label>
+	       		<input id="width"/>
+       		</fieldset>
+       		<fieldset>
+	       		<label for="height">height:</label>
+	       		<input id="height"/>
+       		</fieldset>
+       		<fieldset class="end">
+       			<a href="#" id="cancel">Cancel</a>
+       			<a href="#" id="apply">Apply</a>
+       		</fieldset>       		
+       	</form>
 		<canvas id="canvas">
 			<p> Unfortunately, your browser is currently unsupported by our web 
 			    application.  We are sorry for the inconvenience. Please use one of the 
@@ -33,7 +160,7 @@
 			<a href="http://www.opera.com/">Opera</a>
 			</p>			
 		</canvas>
-	    <div id="chat" class="transparent"></div>
+	    
 	    <form action="/" id="form">
 		    <input id="input"/>
 		    <input type="submit"/ value="send">
