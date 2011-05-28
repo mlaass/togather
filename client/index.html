@@ -24,11 +24,18 @@
         		
         		
         		buttons.each(function(vent, obj){
-	        		$(obj).html('<img src="img/empty.png" width="32" height="32" alt="'+$(obj).attr('id')+'"/>');
+        			var o = $(obj), txt= o.attr('name')
+        			if(txt === '' || !txt){
+        				txt= o.attr('id');
+        			}
+        			var  p = $('<span>').html(txt);
+	        		o.append('<img src="img/empty.png" width="32" height="32" alt="'+$(obj).attr('id')+'"/>').append(p);
+	        		p = o.find('span');
+	        		p.css({left: 8-(p.width()/2)});
         		});
         		
 	        	tools.each(function(vent, obj){
-	        		$(obj).html('<img src="img/empty.png" width="32" height="32" alt="'+$(obj).attr('id')+'"/>');
+
 	        		$(obj).click(function(){
 	        			tools.each(function(ev, obj2){
 	        				$(obj2).removeClass('active');
@@ -121,14 +128,13 @@
     <body> 
     	<div id="chat" class="transparent"></div>
     	<ul id="menu">
- 	        <li id="chatb" class="button"></li> 
+ 	        <li id="chatb" class="button" name="chat"></li> 
     	</ul>
-       <ul id="tools" style="display:none">
-       		
-    		<li id="drag"></li>
-        	<li id="pick" ></li>
-        	<li id="tile" class="active"></li>   
-        	<li id="settings"></li>    
+       <ul id="tools" style="display:none">       		
+    		<li id="drag" class="button"></li>
+        	<li id="pick" class="button"></li>
+        	<li id="tile" class="button active"></li>   
+        	<li name = "set" id="settings" class="button"></li>    
         </ul>
        	<form id="settings-pop" class="pop clickable" style="display:none">
        		<fieldset>

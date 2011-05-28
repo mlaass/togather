@@ -84,7 +84,7 @@ form.pop fieldset.end{
 #menu{
 	position: absolute;
 	top: 16px;
-	left: 0;	
+	left: 8px;	
 	height: 32px;
 	z-index: 99;
 	margin: 0;
@@ -105,8 +105,8 @@ form.pop fieldset.end{
 	height: 32px;
 	display: block;
 	float: left;
-	margin: 0 4px;
-	padding: 3px;	
+	margin: 0 8px;
+	padding: 1px;	
 	border: 1px solid transparent;
 	border-radius: 32px;
 	-moz-border-radius: 32px;
@@ -125,7 +125,19 @@ form.pop fieldset.end{
 	background: url(../img/icons.png) 0 -32px;
 
 }
-
+#tools span, .button span{
+	position: relative;
+	bottom: -2px;
+	left: auto;
+	background: rgba(0,0,0,0.3);
+	color: rgba(255,255,255,0.8);
+	font-weight: bold;
+	font-size: 16px;
+	padding: 0 8px;
+	border-radius: 16px;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+}
 
 #tools #pick img{
 	background-position: -32px -32px;
