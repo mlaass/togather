@@ -1,5 +1,8 @@
-require(['http', 'url', 'fs', 'sys', './lib/yoda/Yoda', './client/Chat', './client/Level'], 
-		function(http, url, fs, sys, Yoda, Chat, Level){
+require(['http', 'url', 'fs', 'sys','mongoose', './lib/yoda/Yoda', './client/Chat', './client/Level'], 
+		function(http, url, fs, sys, mongo, Yoda, Chat, Level){
+	
+
+	mongo.connect('mongodb://localhost/test');
 	
 	var server = http.createServer(function(req, res) {		
 		// your normal server code

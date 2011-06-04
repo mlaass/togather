@@ -13,7 +13,7 @@ define([],function(){
 		var r = '';
 		for(var i in this.history){
 			var time= new Date(this.history[i].time);
-			r+= '<p>['+time.toLocaleTimeString()+'] <b>'+this.history[i].client+': </b>'+this.history[i].text+'</p>';
+			r+= '<p>['+time.toLocaleTimeString()+']<b>'+this.history[i].client+': </b>'+this.history[i].text+'</p>';
 		}
 		return r;
 	};	

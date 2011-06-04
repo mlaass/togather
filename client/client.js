@@ -1,4 +1,4 @@
-require(['YodaClient', 'Chat', 'lib/jo/src/jo', 'lib/jo/src/Game','lib/jo/src/Camera', './Level'], 
+require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Level'], 
 		function(Yoda, Chat, jo, Game, Camera, Level){	
 	//one global variable to rule them all very useful with the firebug console
 	$jo=jo;
