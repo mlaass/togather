@@ -19,17 +19,23 @@ a{
 #chat{
 	position: absolute;
 	z-index:2;
-	top: 64px;
-	left: 8px;
+	top: 0;
+	left: 0;
+	width: 320px;
+	height: 100%;
+	background: rgba(255,255,255, 0.5);
 }
-#form{
+#chat-text{
+	margin-top: 96px;
+}
+#chat-form{
 	z-index:99;
 	position:absolute;
 	left: 8px;
 	bottom:8px;
 }
-#input{
-	width: 500px;
+#chat-input{
+	width: 224px;
 }
 	
 .transparent {
@@ -92,12 +98,9 @@ form.pop fieldset.end{
 }
 
 #tools{
-	position: absolute;
-	top: 16px;
-	right: 128px;	
 	height: 32px;
 	z-index: 99;
-	margin: 0;
+	margin: 4px 8px;
 }
 
 #tools li, .button{
@@ -113,17 +116,16 @@ form.pop fieldset.end{
 	-webkit-border-radius: 32px;
 }
 #tools li:hover, .botton:hover{
-	border: 1px solid rgba(196,196,0,0.7);
+	border: 1px solid rgba(255,196,0,1);
 }
 #tools li.active{
-	background-color: rgba(164,164,0,0.8);
+	background-color: rgba(255,196,0,0.8);
 }
 #tools img, .button img{
 	width: 32px;
 	height: 32px;
 	display: block;
 	background: url(../img/icons.png) 0 -32px;
-
 }
 #tools span, .button span{
 	position: relative;
@@ -138,7 +140,6 @@ form.pop fieldset.end{
 	-moz-border-radius: 16px;
 	-webkit-border-radius: 16px;
 }
-
 #tools #pick img{
 	background-position: -32px -32px;
 }
@@ -147,4 +148,46 @@ form.pop fieldset.end{
 }
 #tools #settings img{
 	background-position: -96px -32px;
+}
+#sidebar{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 224px;
+	height: 100%;
+	background: white;
+	border: none;
+	border-left: 1px solid #ccc;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	z-index: 99;
+}
+#sidebar .panel{
+	margin: 0;
+	padding: 0;
+	min-height: 96px;	
+}
+ul{
+	margin: 0;
+	padding: 0;
+}
+#sidebar h2{
+	margin: 0 0 8px 0;
+	padding: 4px 0;
+	font-size: 16px;
+	background: #ccc;
+	text-indent: 8px;
+}
+#sidebar form{
+	padding: 0 4px;
+}
+.pair label, .pair input.name{
+	width: 80px;
+	display: inline-block;
+}
+.pair input{
+	width: 120px;
+	margin-left: 4px;
+	display: inline-block;	
 }

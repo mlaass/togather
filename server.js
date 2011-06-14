@@ -39,8 +39,12 @@ require(['http', 'url', 'fs', 'sys','mongoose', './lib/yoda/Yoda', './client/Cha
 	server.listen(8000);
 	sys.puts('Server running at http://127.0.0.1:8000/');	
 	
-	var yoda = new Yoda({listen: server});	
-	//add instances to Yoda
+	var yoda = new Yoda({listen: server});
+	
+	yoda.message(function(client, msg){
+		
+	});
+
 	yoda.addInstance('chat', Chat);	
 	yoda.addInstance('map', Level, {arguments: [null, 256, 256], ignore:{draw: 1,update:1, init:1, convertFrame:1, get:1}});
 });

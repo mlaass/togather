@@ -11,47 +11,27 @@
         
         <script type="text/javascript" >
 	        require.ready(function() {
-	        	var pop =$('.pop'), toolbar = $('#tools'), tools= $('#tools li'), settings =$('#tools #settings'),
-	        	chatb = $('#chatb'), buttons=$('.button');
-				if(!$jo){
-					$jo={};
-				}
+	        	settings = $('#tools #settings'),
+	        	chatb = $('#chatb'), 
+	        	buttons = $('.button');
 	        	
-	        	toolbar.show();
-        		$('#settings-pop').hide();
+				if( !$jo ){
+					$jo = {};
+				}	        	
         		
-        		$jo.tool='tile';
-        		
+        		$jo.tool='tile';       		
         		
         		buttons.each(function(vent, obj){
         			var o = $(obj), txt= o.attr('name')
         			if(txt === '' || !txt){
-        				txt= o.attr('id');
+        				txt = o.attr('id');
         			}
         			var  p = $('<span>').html(txt);
 	        		o.append('<img src="img/empty.png" width="32" height="32" alt="'+$(obj).attr('id')+'"/>').append(p);
 	        		p = o.find('span');
 	        		p.css({left: 8-(p.width()/2)});
+	        		
         		});
-        		
-	        	tools.each(function(vent, obj){
-
-	        		$(obj).click(function(){
-	        			tools.each(function(ev, obj2){
-	        				$(obj2).removeClass('active');
-	        			})
-	        			$(obj).addClass('active');
-	        			$jo.tool= $(obj).attr('id')
-	        		});
-	        	});
-	        	settings.click(function(){
-	        		var inputs= $('#settings-pop input');
-	        		inputs.each(function(ev, obj){
-	        			var o = $(this);
-	        			o.val($jo.game.map[o.attr('id')]+'');
-	        		});
-	        		$('#settings-pop').show();
-	        	});
 	        	chatb.click(function(){
 
 	        		if(chatb.hasClass('hidden')){
@@ -70,90 +50,82 @@
 	        		$('#settings-pop').hide();
 
 	        	});
-				$('#cancel').click(function(e){
-					$('#settings-pop').hide();
-	        	});
 
 	        	$('#canvas').click(function(){
 	        		$('#input').blur();
 	        	});
-	        	
-	        	var v= viewport();
-	        	pop.each(function(event, obj){
-	        		var o =$(obj);
-	        		o.css({left: (v.width/2)-o.width()/2, top: v.height/2 -o.height()/2});
-	        		if(!o.hasClass('clickable')){
-	        			o.click(function(){
-	            			o.hide();
-	                	});
-	        		}        		
-	        	})
-	        	toolbar.css({left: (v.width/2)-tools.width()/2, top: '16px'});
-	        	$(window).resize(function(){
-	    			var v= viewport();
-	            	pop.each(function(event, obj){
-	            		var o =$(obj);
-	            		o.css({left: (v.width/2)-o.width()/2, top: v.height/2 -o.height()/2});
-	            	});  
-	            	toolbar.css({left: (v.width/2)-tools.width()/2, top: '16px'});
-	        	});
 	        });
-	         var viewport = function(){
-	      		var viewportwidth;
-	      		var viewportheight;
-	      		// the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
-	      		if (typeof window.innerWidth != 'undefined')
-	      		{
-	      		     viewportwidth = window.innerWidth,
-	      		     viewportheight = window.innerHeight;
-	      		}
-	 			// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
-	      		else if (typeof document.documentElement != 'undefined'
-	      		    && typeof document.documentElement.clientWidth !=
-	      		    'undefined' && document.documentElement.clientWidth != 0)
-	      		{
-	      		      viewportwidth = document.documentElement.clientWidth,
-	      		      viewportheight = document.documentElement.clientHeight;
-	      		}
-	      		// older versions of IE    		
-	      		else
-	      		{
-	      		      viewportwidth = document.getElementsByTagName('body')[0].clientWidth,
-	      		      viewportheight = document.getElementsByTagName('body')[0].clientHeight;
-	      		}
-	      		return {width: viewportwidth, height: viewportheight};
-	      	};
+
         </script>
     </head>    
     <body> 
-    	<div id="chat" class="transparent"></div>
+    	<ul id ="sidebar">
+	    	<li class="panel" name="tools">
+	    		<h2>tools</h2>  
+		    	<ul id="tools" >       		
+		    		<li id="drag" class="button"></li>
+		        	<li name = "pick" id="pick" class="button"></li>
+		        	<li id="tile" class="button active"></li>   
+		        	<li name = "set" id="settings" class="button"></li>    
+		        </ul>
+	        </li>
+	        <li class="panel" id="toolprops">
+	        	<h2>tool properties</h2>
+		        <div class="tool-prop" id="pick-prop" style= "display: none;" >		        	
+		        	<form id="add-entitty" action="add-entity">
+		        		<p>    	
+			        		<select name="entity-select" size="1"> </select>
+			        		<input type="submit"  value="add Entity" />
+		        		</p>	        		
+		        	</form>	
+	        	</div>
+	        	<form class="tool-prop" id="settings-prop" action="map-settings"style= "display: none;" >
+		       		<p class="pair">
+			       		<label for="name">name:</label>
+			       		<input id="name"/>
+		       		</p>
+		       		<p class="pair">
+			       		<label for="width">width:</label>
+			       		<input id="width"/>
+		       		</p>
+		       		<p class="pair">
+			       		<label for="height">height:</label>
+			       		<input id="height"/>
+		       		</p>
+		       		<p class=" end">
+		       			<input type="reset" value="Cancel"/>
+		       			<input type="submit" value="Apply"/>
+		       		</p>       		
+		       	</form>		      
+	        </li>	        
+
+	        <li class="panel" id="inspector" name="inspector">
+	        	<h2>inspector</h2>
+	        	<ul id="properties">
+	        	
+	        	</ul>	        
+	        </li>        
+    	</ul>
+     	
+     	<div id="chat" >
+    		<div id="chat-text">
+    		
+    		</div>
+   		    <form action="/" id="chat-form">
+			    <input id="chat-input"/>
+			    <input type="submit"/ value="send">
+		    </form>
+    	</div>
+    	<div id=help style="display: none">
+    		<h2>togather help</h2>
+    		<p>
+    			keyboard shortcuts:
+    		</p>
+    	</div>
     	<ul id="menu">
  	        <li id="chatb" class="button" name="chat"></li> 
+ 	        <li id="helpb" class="button" name="help"></li> 
     	</ul>
-       <ul id="tools" style="display:none">       		
-    		<li id="drag" class="button"></li>
-        	<li id="pick" class="button"></li>
-        	<li id="tile" class="button active"></li>   
-        	<li name = "set" id="settings" class="button"></li>    
-        </ul>
-       	<form id="settings-pop" class="pop clickable" style="display:none">
-       		<fieldset>
-	       		<label for="name">name:</label>
-	       		<input id="name"/>
-       		</fieldset>
-       		<fieldset>
-	       		<label for="width">width:</label>
-	       		<input id="width"/>
-       		</fieldset>
-       		<fieldset>
-	       		<label for="height">height:</label>
-	       		<input id="height"/>
-       		</fieldset>
-       		<fieldset class="end">
-       			<a href="#" id="cancel">Cancel</a>
-       			<a href="#" id="apply">Apply</a>
-       		</fieldset>       		
-       	</form>
 		<canvas id="canvas">
 			<p> Unfortunately, your browser is currently unsupported by our web 
 			    application.  We are sorry for the inconvenience. Please use one of the 
@@ -166,10 +138,5 @@
 			<a href="http://www.opera.com/">Opera</a>
 			</p>			
 		</canvas>
-	    
-	    <form action="/" id="form">
-		    <input id="input"/>
-		    <input type="submit"/ value="send">
-	    </form>
     </body>
 </html>

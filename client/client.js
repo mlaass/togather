@@ -1,18 +1,20 @@
-require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Level'], 
-		function(Yoda, Chat, jo, Game, Camera, Level){	
+require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Level', './sidebar'], 
+		function(Yoda, Chat, jo, Game, Camera, Level, sb){	
 	//one global variable to rule them all very useful with the firebug console
 	$jo=jo;
 	
 	//the game object needs id of the canvas 
 	var game = jo.game = new Game({ name: '#canvas', fullscreen: true, fps: 30});
 	var yoda;
-	
+	game.sb=sb;
 	game.setup(function(){
 		//preloading of the files we need
 		game.load(['img/logo.png',
 		           'img/tileset.png']);
 		
 		game.cam = new jo.Camera(0,0);
+		
+		game.entities = ['Player', 'Door', 'Key', 'Trigger'];
 	});
 
 	game.ready(function(){
@@ -28,20 +30,20 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 
 			game.map.tileSet = game.ts;
 			
-			$('#chat').html(chat.clientRenderHtml());
+			$('#chat-text').html(chat.clientRenderHtml());
 			
-			$('#form').submit(function(e){
+			$('#chat-form').submit(function(e){
 				var msg = $('#input').val();
 				if(msg !== ''){
 					chat.post({time: '$time', client: '$id', text:msg });
 				}
 				
-				$('#input').val('');
+				$('#chat-input').val('');
 				e.preventDefault();
 				return 0;
 			});
 			yoda.sync(function(msg){
-				$('#chat').html(chat.clientRenderHtml());
+				$('#chat-text').html(chat.clientRenderHtml());
 				jo.log(msg);
 			});
 		});	
@@ -86,7 +88,9 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 			if(jo.input.once('MOUSE1')){
 				for(var i in game.objects){
 					if(m2d.intersect.pointBox( game.cam.toWorld(jo.input.mouse), game.objects[i])){
-						game.selection= i;
+						game.sb.select = game.selection= i;
+						
+						game.sb.fillInspector();
 					}
 				}
 			}else if(jo.input.k('MOUSE1') ){
@@ -129,7 +133,7 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 			game.map.draw({x: p.x, y: p.y, width: jo.screen.width, height:jo.screen.height, grid: true}, new jo.Point(0,0), jo.screen);
 		}
 
-		jo.files.img.logo.draw({angle: (jo.screen.frames/60)*Math.PI, pivot: 'center'}, jo.point(jo.screen.width-48,48), jo.screen);				
+		jo.files.img.logo.draw({angle: (jo.screen.frames/60)*Math.PI, pivot: 'center'}, jo.point(jo.screen.width-48,jo.screen.height-48), jo.screen);				
 	});	
 	
 });
