@@ -12,7 +12,8 @@
         <script type="text/javascript" >
 	        require.ready(function() {
 	        	settings = $('#tools #settings'),
-	        	chatb = $('#chatb'), 
+	        	chatbutton = $('#chat-button'), 
+	        	helpbutton = $('#help-button'), 
 	        	buttons = $('.button');
 	        	
 				if( !$jo ){
@@ -32,16 +33,25 @@
 	        		p.css({left: 8-(p.width()/2)});
 	        		
         		});
-	        	chatb.click(function(){
-
-	        		if(chatb.hasClass('hidden')){
+	        	chatbutton.click(function(){
+	        		if(chatbutton.hasClass('hidden')){
 	        			$('#chat').show();
-	        			chatb.removeClass('hidden');
+	        			chatbutton.removeClass('hidden');
 	        		}else {
 	        			$('#chat').hide();
-	        			chatb.addClass('hidden');
+	        			chatbutton.addClass('hidden');
 	        		}
 	        	});
+	        	helpbutton.click(function(){
+	        		if(helpbutton.hasClass('hidden')){
+	        			$('#help').show();
+	        			helpbutton.removeClass('hidden');
+	        		}else {
+	        			$('#help').hide();
+	        			helpbutton.addClass('hidden');
+	        		}
+	        	});
+	        	
 	        	$('#apply').click(function(e){
 	        		var w=$('#width').val(), h=$('#height').val();
 	        		w= parseInt(w), h=parseInt(h);
@@ -71,14 +81,22 @@
 	        </li>
 	        <li class="panel" id="toolprops">
 	        	<h2>tool properties</h2>
+	        	
 		        <div class="tool-prop" id="pick-prop" style= "display: none;" >		        	
-		        	<form id="add-entitty" action="add-entity">
+		        	<form id="add-entity" action="addEntity">
 		        		<p>    	
 			        		<select name="entity-select" size="1"> </select>
 			        		<input type="submit"  value="add Entity" />
 		        		</p>	        		
 		        	</form>	
 	        	</div>
+	        	
+	        	<div class ="tool-prop" id="tile-prop">
+	        		<ul id="tile-select"> 
+	        			
+	        		</ul>
+   		        </div>	
+	        	
 	        	<form class="tool-prop" id="settings-prop" action="map-settings"style= "display: none;" >
 		       		<p class="pair">
 			       		<label for="name">name:</label>
@@ -111,20 +129,34 @@
     		<div id="chat-text">
     		
     		</div>
-   		    <form action="/" id="chat-form">
+   		    <form action="chat" id="chat-form">
 			    <input id="chat-input"/>
-			    <input type="submit"/ value="send">
+			    <input type="submit" value="send"/>
 		    </form>
     	</div>
     	<div id=help style="display: none">
     		<h2>togather help</h2>
-    		<p>
-    			keyboard shortcuts:
-    		</p>
+<pre>
+drag:
+	left: drag the map around
+pick:
+	left: pick and move entities
+	right: delete entities
+	alt+left: copy & move entity (planned)
+tile:
+	left: draw tiles
+	right: delete tiles
+set:
+	nothing;
+
+keyboard shortcuts:
+	[CTRL]+[ALT] + [ARROWS]: shift
+	[TAB]: 	cycle through tiles
+</pre>
     	</div>
     	<ul id="menu">
- 	        <li id="chatb" class="button" name="chat"></li> 
- 	        <li id="helpb" class="button" name="help"></li> 
+ 	        <li id="chat-button" class="button" name="chat"></li> 
+ 	        <li id="help-button" class="button hidden" name="help"></li> 
     	</ul>
 		<canvas id="canvas">
 			<p> Unfortunately, your browser is currently unsupported by our web 

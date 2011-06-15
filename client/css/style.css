@@ -16,20 +16,27 @@ a{
 #canvas{
 	position:absolute;
 }
-#chat{
+#chat, #help{
 	position: absolute;
 	z-index:2;
 	top: 0;
 	left: 0;
-	width: 320px;
+	width: 312px;
 	height: 100%;
 	background: rgba(255,255,255, 0.5);
+	padding: 0 4px;
 }
-#chat-text{
+#chat :first-child, #help :first-child{
 	margin-top: 96px;
 }
+#chat-text{
+	font-size: 10px;
+}
+#chat-text.time, #chat-text.name{
+	
+}
 #chat-form{
-	z-index:99;
+	z-index:2;
 	position:absolute;
 	left: 8px;
 	bottom:8px;
@@ -37,54 +44,16 @@ a{
 #chat-input{
 	width: 224px;
 }
-	
-.transparent {
-        /* Required for IE 5, 6, 7 */
-        /* ...or something to trigger hasLayout, like zoom: 1; */
-        zoom: 1; 
-        /* This works in IE 8 & 9 too */
-        /* ... but also 5, 6, 7 */
-        filter: alpha(opacity=50);
-        /* Modern!
-        /* Firefox 0.9+, Safari 2?, Chrome any?
-        /* Opera 9+, IE 9+ */
-        opacity: 0.5;
-}
-.pop{
-	border-radius: 8px;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	background: rgba(255,255,255,120);
-	color: #333;
-	font-size: 18px;
-	display: inline-block;
-	position: absolute;
-	z-index: 99;
-	padding: 20px;
-	width: 460px;
-	height: 240px;
-	text-align: center;
-}
-form.pop{
-	overflow-x: hide;
-	overflow-y: auto;
-}
-form.pop label{
-	width: 96px;
-	display: inline-block;
-}
-form.pop fieldset{
-	text-align: left;
-	border: none;
-}
-form.pop fieldset.end{
-	text-align: right;
+
+#help{
+	z-index: 3;
+	background: #ccc;
 }
 
-#chatb img{
+#chat-button img{
 	background-position: -160px 0;
 }
-#chatb.hidden img{
+#chat-button.hidden img{
 	background-position: -192px 0;
 }
 #menu{
@@ -190,4 +159,23 @@ ul{
 	width: 120px;
 	margin-left: 4px;
 	display: inline-block;	
+}
+#tile-select{
+	max-height: 256px;
+	overflow-y: auto;
+	margin-bottom: 4px;
+}
+#tiles-select:after{
+	clear: both;	
+}
+#tile-select li{
+	display: inline-block;
+	border: 2px solid white;
+	
+}
+#tile-select li:hover{
+	border: 2px solid #ccc;
+}
+#tile-select li.selected{
+	border: 2px solid #fc0;
 }

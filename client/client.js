@@ -10,17 +10,16 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 	game.setup(function(){
 		//preloading of the files we need
 		game.load(['img/logo.png',
-		           'img/tileset.png']);
+		           'img/tileset.png']);		
+		game.cam = new jo.Camera(0,0);		
+		game.entitylist = ['Player', 'Door', 'Key', 'Trigger'];
 		
-		game.cam = new jo.Camera(0,0);
-		
-		game.entities = ['Player', 'Door', 'Key', 'Trigger'];
 	});
 
 	game.ready(function(){
 		game.state = 'start';
 		game.ts = new jo.TileSet([0,1,2,3, [{i:4, t:800},{i:5, t: 600}], 6], 64,64, jo.files.img.tileset);
-		
+		game.sb.setup();
 		
 		yoda = new Yoda(8000);			
 		
@@ -33,14 +32,14 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 			$('#chat-text').html(chat.clientRenderHtml());
 			
 			$('#chat-form').submit(function(e){
-				var msg = $('#input').val();
+				var msg = $('#chat-input').val();
 				if(msg !== ''){
 					chat.post({time: '$time', client: '$id', text:msg });
 				}
 				
 				$('#chat-input').val('');
 				e.preventDefault();
-				return 0;
+				return false;
 			});
 			yoda.sync(function(msg){
 				$('#chat-text').html(chat.clientRenderHtml());
@@ -55,7 +54,7 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 			game.editControls();
 
 	});
-	var pal = 0;
+	game.tileBrush = 0;
 	game.editControls= function(){
 		//player.pos.copy(game.cam.toWorld(jo.input.mouse));
 		if(jo.input.k('D') ){
@@ -82,7 +81,7 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 			 }
 		}
 		if(jo.input.once('TAB')){
-			pal = (pal+1)%game.map.tileSet.tiles.length;
+			game.tileBrush = (game.tileBrush+1)%game.map.tileSet.tiles.length;
 		}
 		if(jo.tool==='pick'){
 			if(jo.input.once('MOUSE1')){
@@ -110,7 +109,7 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 		if(jo.tool==='tile'){
 			if(jo.input.k('MOUSE1')){
 				var p=game.cam.toMap(jo.input.mouse);
-				game.map.put(p.x, p.y, {index: pal});
+				game.map.put(p.x, p.y, {index: game.tileBrush});
 			}
 			if(jo.input.k('MOUSE2')){
 				var p=game.cam.toMap(jo.input.mouse);
