@@ -18,7 +18,7 @@ require(['YodaClient', 'Chat', 'lib/jo/jo', 'lib/jo/Game','lib/jo/Camera', './Le
 
 	game.ready(function(){
 		game.state = 'start';
-		game.ts = new jo.TileSet([0,1,2,3, [{i:4, t:800},{i:5, t: 600}], 6], 64,64, jo.files.img.tileset);
+		game.ts = new jo.TileSet({tiles:[0,1,2,3, [{i:4, t:800 }, {i:5, t: 600 }], 6],width: 64, height: 64, sprite: jo.files.img.tileset});
 		game.sb.setup();
 		
 		yoda = new Yoda(8000);			

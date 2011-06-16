@@ -78,6 +78,11 @@ define(['./lib/jo/jo', './lib/jquery-1.5.2.min'], function(jo, jq){
 			addEntitySubmit: function(form){
 				var ent =form.find('select').val();
 				alert(ent);
+			},
+			mapSettingsSubmit: function(form){
+				var w=$('#width').val(), h=$('#height').val();
+        		w= parseInt(w), h=parseInt(h);
+        		$jo.game.map.resize(w,h, {index: -1});
 			}
 		},
 		tools:{

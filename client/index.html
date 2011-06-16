@@ -51,16 +51,7 @@
 	        			helpbutton.addClass('hidden');
 	        		}
 	        	});
-	        	
-	        	$('#apply').click(function(e){
-	        		var w=$('#width').val(), h=$('#height').val();
-	        		w= parseInt(w), h=parseInt(h);
-	        		$jo.game.map.resize(w,h, {index: -1});
-
-	        		$('#settings-pop').hide();
-
-	        	});
-
+	     
 	        	$('#canvas').click(function(){
 	        		$('#input').blur();
 	        	});
@@ -97,7 +88,7 @@
 	        		</ul>
    		        </div>	
 	        	
-	        	<form class="tool-prop" id="settings-prop" action="map-settings"style= "display: none;" >
+	        	<form class="tool-prop" id="settings-prop" action="mapSettings" style= "display: none;" >
 		       		<p class="pair">
 			       		<label for="name">name:</label>
 			       		<input id="name"/>
@@ -125,7 +116,7 @@
 	        </li>        
     	</ul>
      	
-     	<div id="chat" >
+     	<div id="chat" style="display:none;">
     		<div id="chat-text">
     		
     		</div>
@@ -155,7 +146,7 @@ keyboard shortcuts:
 </pre>
     	</div>
     	<ul id="menu">
- 	        <li id="chat-button" class="button" name="chat"></li> 
+ 	        <li id="chat-button" class="button hidden" name="chat"></li> 
  	        <li id="help-button" class="button hidden" name="help"></li> 
     	</ul>
 		<canvas id="canvas">

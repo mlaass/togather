@@ -1,5 +1,11 @@
-require(['http', 'url', 'fs', 'sys','mongoose', './lib/yoda/Yoda', './client/Chat', './client/Level'], 
-		function(http, url, fs, sys, mongo, Yoda, Chat, Level){
+require(['http', 'url', 'fs', 'sys','mongoose', 
+         './lib/yoda/Yoda', 
+         './client/Chat', 
+         './client/Level',
+         './client/lib/jo/jo',
+         './client/lib/jo/Object'], 
+		function(http, url, fs, sys, mongo, 
+				Yoda, Chat, Level, jo, Object){
 	
 
 	mongo.connect('mongodb://localhost/test');
@@ -40,11 +46,38 @@ require(['http', 'url', 'fs', 'sys','mongoose', './lib/yoda/Yoda', './client/Cha
 	sys.puts('Server running at http://127.0.0.1:8000/');	
 	
 	var yoda = new Yoda({listen: server});
-	
+	yoda.sync(function(client, msg){
+		
+		if(msg.instance === 'map'){
+			fs.writeFile('map.json', yoda.getInstance('map').stringify(), function (err) {
+				if (err) throw err;
+			});
+		}
+	});
 	yoda.message(function(client, msg){
 		
 	});
 
 	yoda.addInstance('chat', Chat);	
-	yoda.addInstance('map', Level, {arguments: [null, 256, 256], ignore:{draw: 1,update:1, init:1, convertFrame:1, get:1}});
+	//yoda.addInstance('map', Level, {arguments: [{tileSet:null, width:12, height:12}], ignore:{draw: 1,update:1, init:1, convertFrame:1, get:1}});
+	
+	fs.readFile('map.json', function (err, data) {
+		if (err) {
+			throw err;
+		}else{
+			sys.puts(data);
+			var map = Object.parse(data);
+			yoda.addInstance('map', Level, {arguments: [{tileSet:null, width:12, height:12}], instance: map, ignore:{draw: 1,update:1, init:1, convertFrame:1, get:1}});
+
+			fs.writeFile('maptest.json', map.stringify(), function (err) {
+				if (err) throw err;
+				
+			});
+		}
+	});
+		
+	
+	
+	
+	
 });
